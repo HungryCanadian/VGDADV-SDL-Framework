@@ -76,7 +76,7 @@ namespace SDLFramework {
 			return false;
 		}
 
-		SDL_SetRenderDrawColor(mRenderer, 182, 0, 200, 255);
+		SDL_SetRenderDrawColor(mRenderer, 140, 15, 185, 255);
 		return true;
 	}
 
