@@ -35,7 +35,7 @@ namespace SDLFramework {
 	}
 
 	void GameManager::Update() {
-		std::cout << "Delta Time: " << mTimer->DeltaTime() << std::endl;
+		//std::cout << "Delta Time: " << mTimer->DeltaTime() << std::endl;
 	}
 
 	void GameManager::LateUpdate() {
@@ -47,7 +47,7 @@ namespace SDLFramework {
 		mGraphics->Render();
 	}
 
-	GameManager::GameManager() : mQuit(false), mGraphics(nullptr) {
+	GameManager::GameManager() : mQuit(false) {
 		//Calling to our Graphics singleton
 		mGraphics = Graphics::Instance();
 
@@ -55,6 +55,22 @@ namespace SDLFramework {
 			mQuit = true;
 		}
 		mTimer = Timer::Instance();
+
+		mParent = new GameEntity(100.0f, 400.0f);
+		mChild = new GameEntity(100.0f, 500.0f);
+
+
+		//this happens before we are attaching the child to the parent
+		printf("Child local pos: (%f, %f)\n",
+			mChild->getPosition(GameEntity::Local).x,
+			mChild->getPosition(GameEntity::Local).y);
+
+		mChild->Parent(mParent);
+
+		//This is happening after we are attaching the child to the parent
+		printf("Child local pos: (%f, %f)\n",
+			mChild->getPosition(GameEntity::Local).x,
+			mChild->getPosition(GameEntity::Local).y);
 	}
 
 	GameManager::~GameManager() {

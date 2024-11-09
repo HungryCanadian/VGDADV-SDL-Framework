@@ -28,6 +28,38 @@ namespace SDLFramework {
 		return sInitialized;
 	}
 
+	SDL_Texture* Graphics::LoadTexture(std::string path) {
+		SDL_Texture* tex = nullptr;
+
+		SDL_Surface* surface = IMG_Load(path.c_str());
+
+		if (surface == nullptr) {
+			//This means we have failed to fin the image
+			std::cerr << "Unable to load " << path << ". IMG Error: " << IMG_GetError() << "\n";
+			return nullptr;
+		}
+
+		//We can assume that we were able to create a surface of our Image
+		//We want to convert from a SDL_Surface to a SDL_Texture
+
+		tex = SDL_CreateTextureFromSurface(mRenderer, surface);
+		SDL_FreeSurface(surface);
+
+		if (tex == nullptr) {
+			std::cerr << "Unable to create a texture from Surface IMG ERROR: " << IMG_GetError() << "\n";
+			SDL_FreeSurface(surface);
+			return nullptr;
+		}
+
+		return tex;
+	}
+
+	void Graphics::DrawTexture(SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dst_Rect, float angle, SDL_RendererFlip flip) {
+		//TODO: Define this function
+		//Requirement 1: Create an AssetManager class which will handle loading and retrieving textures
+		//Requirement 2: Create a Texture class
+	}
+
 	void Graphics::ClearBackBuffer() {
 		SDL_RenderClear(mRenderer);
 	}
