@@ -44,6 +44,12 @@ namespace SDLFramework {
 
 	void GameManager::Render() {
 		mGraphics->ClearBackBuffer();
+
+		mTex->Render();
+		mRedShip->Render();
+		mGreenGalaga->Render();
+		mPurpleGalaga->Render();
+
 		mGraphics->Render();
 	}
 
@@ -54,31 +60,49 @@ namespace SDLFramework {
 		if (!Graphics::Initialized) {
 			mQuit = true;
 		}
+
 		mTimer = Timer::Instance();
+		mAssetManager = AssetManager::Instance();
 
-		mParent = new GameEntity(100.0f, 400.0f);
-		mChild = new GameEntity(100.0f, 500.0f);
+		mTex = new Texture("SpriteSheet.png", 182, 54, 20, 20);
+		mTex->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
+		mTex->Scale(Vector2(2.0f, 2.0f));
 
+		mRedShip = new Texture("SpriteSheet.png", 182, 74, 20, 20);
+		mRedShip->Position(Vector2(Graphics::SCREEN_WIDTH * 0.4f, Graphics::SCREEN_HEIGHT * 0.49f));
+		mRedShip->Scale(Vector2(2.0f, 2.0f));
 
-		//this happens before we are attaching the child to the parent
-		printf("Child local pos: (%f, %f)\n",
-			mChild->getPosition(GameEntity::Local).x,
-			mChild->getPosition(GameEntity::Local).y);
+		mGreenGalaga = new Texture("SpriteSheet.png", 182, 100, 20, 20);
+		mGreenGalaga->Position(Vector2(Graphics::SCREEN_WIDTH * 0.3f, Graphics::SCREEN_HEIGHT * 0.49f));
+		mGreenGalaga->Scale(Vector2(2.0f, 2.0f));
 
-		mChild->Parent(mParent);
+		mPurpleGalaga = new Texture("SpriteSheet.png", 182, 125, 20, 20);
+		mPurpleGalaga->Position(Vector2(Graphics::SCREEN_WIDTH * 0.2f, Graphics::SCREEN_HEIGHT * 0.49f));
+		mPurpleGalaga->Scale(Vector2(2.0f, 2.0f));
+		
 
-		//This is happening after we are attaching the child to the parent
-		printf("Child local pos: (%f, %f)\n",
-			mChild->getPosition(GameEntity::Local).x,
-			mChild->getPosition(GameEntity::Local).y);
 	}
 
 	GameManager::~GameManager() {
+		//Release Variables
+		delete mTex;
+		mTex = nullptr;
+		delete mRedShip;
+		mRedShip = nullptr;
+		delete mGreenGalaga;
+		mGreenGalaga = nullptr;
+		delete mPurpleGalaga;
+		mPurpleGalaga = nullptr;
+
+		//Release Modules
 		Graphics::Release();
 		mGraphics = nullptr;
 
 		Timer::Release();
 		mTimer = nullptr;
+
+		AssetManager::Release();
+		mAssetManager = nullptr;
 
 		//Quit SDL
 		SDL_Quit();

@@ -54,10 +54,8 @@ namespace SDLFramework {
 		return tex;
 	}
 
-	void Graphics::DrawTexture(SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dst_Rect, float angle, SDL_RendererFlip flip) {
-		//TODO: Define this function
-		//Requirement 1: Create an AssetManager class which will handle loading and retrieving textures
-		//Requirement 2: Create a Texture class
+	void Graphics::DrawTexture(SDL_Texture* texture, SDL_Rect* srcrect, SDL_Rect* dstrect, float angle, SDL_RendererFlip flip) {
+		SDL_RenderCopyEx(mRenderer, texture, srcrect, dstrect, angle, nullptr, flip);
 	}
 
 	void Graphics::ClearBackBuffer() {
@@ -108,7 +106,7 @@ namespace SDLFramework {
 			return false;
 		}
 
-		SDL_SetRenderDrawColor(mRenderer, 140, 15, 185, 255);
+		//SDL_SetRenderDrawColor(mRenderer, 140, 15, 185, 255);
 		return true;
 	}
 

@@ -2,6 +2,7 @@
 #include "Graphics.h"
 #include "Timer.h"
 #include "GameEntity.h"
+#include "Texture.h"
 
 
 namespace SDLFramework {
@@ -32,10 +33,14 @@ namespace SDLFramework {
 		//Modules
 		Graphics* mGraphics;
 		Timer* mTimer;
+		AssetManager* mAssetManager;
+
 
 		//Sanity Testing Variables
-		GameEntity* mParent;
-		GameEntity* mChild;
+		Texture* mTex;
+		Texture* mRedShip;
+		Texture* mGreenGalaga;
+		Texture* mPurpleGalaga;
 
 		SDL_Event mEvents;
 
