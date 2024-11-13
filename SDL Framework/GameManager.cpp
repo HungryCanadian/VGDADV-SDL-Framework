@@ -35,11 +35,87 @@ namespace SDLFramework {
 	}
 
 	void GameManager::Update() {
-		//std::cout << "Delta Time: " << mTimer->DeltaTime() << std::endl;
+		mInputManager->Update();
+
+		if (mInputManager->KeyDown(SDL_SCANCODE_W)) {
+			mTex->Translate(Vector2(0.0f, -40.0f) * mTimer->DeltaTime(), GameEntity::Local);			
+		}
+		else if (mInputManager->KeyDown(SDL_SCANCODE_S)) {
+			mTex->Translate(Vector2(0.0f, 40.0f) * mTimer->DeltaTime(), GameEntity::Local);
+		}
+		if (mInputManager->KeyDown(SDL_SCANCODE_A)) {
+			mTex->Translate(Vector2(-40.0f, 0.0f) * mTimer->DeltaTime(), GameEntity::Local);
+		}
+		else if (mInputManager->KeyDown(SDL_SCANCODE_D)) {
+			mTex->Translate(Vector2(40.0f, 0.0f) * mTimer->DeltaTime(), GameEntity::Local);
+		}
+		if (mInputManager->KeyDown(SDL_SCANCODE_Q)) {
+			mTex->Rotation(mTex->getRotation(GameEntity::Local) + -180.0f * mTimer->DeltaTime());
+		}
+		else if (mInputManager->KeyDown(SDL_SCANCODE_E)) {
+			mTex->Rotation(mTex->getRotation(GameEntity::Local) + 180.0f * mTimer->DeltaTime());
+		}
+		if (mInputManager->KeyDown(SDL_SCANCODE_Z)) {
+			mTex->Scale(mTex->getScale() + Vector2(0.1f, 0.1f));
+		}
+		else if (mInputManager->KeyDown(SDL_SCANCODE_C)) {
+			mTex->Scale(mTex->getScale() - Vector2(0.1f, 0.1f));
+		}
+		if (mInputManager->KeyDown(SDL_SCANCODE_I)) {
+			mRedShip->Translate(Vector2(0.0f, -40.0f) * mTimer->DeltaTime(), GameEntity::Local);
+		}
+		if (mInputManager->KeyDown(SDL_SCANCODE_K)) {
+			mRedShip->Translate(Vector2(0.0f, 40.0f) * mTimer->DeltaTime(), GameEntity::Local);
+		}
+		if (mInputManager->KeyDown(SDL_SCANCODE_J)) {
+			mRedShip->Rotation(mRedShip->getRotation(GameEntity::Local) + -180.0f * mTimer->DeltaTime());
+		}
+		if (mInputManager->KeyDown(SDL_SCANCODE_L)) {
+			mRedShip->Rotation(mRedShip->getRotation(GameEntity::Local) + 180.0f * mTimer->DeltaTime());
+		}
+		if (mInputManager->KeyPressed(SDL_SCANCODE_W)) {
+			std::cout << "W Key Pressed" << std::endl;
+		}
+		if (mInputManager->KeyReleased(SDL_SCANCODE_W)) {
+			std::cout << "W Key Released" << std::endl;
+		}
+		if (mInputManager->KeyPressed(SDL_SCANCODE_S)) {
+			std::cout << "S Key Pressed" << std::endl;
+		}
+		if (mInputManager->KeyReleased(SDL_SCANCODE_S)) {
+			std::cout << "S Key Released" << std::endl;
+		}
+		if (mInputManager->KeyPressed(SDL_SCANCODE_A)) {
+			std::cout << "A Key Pressed" << std::endl;
+		}
+		if (mInputManager->KeyReleased(SDL_SCANCODE_A)) {
+			std::cout << "A Key Released" << std::endl;
+		}
+		if (mInputManager->KeyPressed(SDL_SCANCODE_D)) {
+			std::cout << "D Key Pressed" << std::endl;
+		}
+		if (mInputManager->KeyReleased(SDL_SCANCODE_D)) {
+			std::cout << "D Key Released" << std::endl;
+		}
+		if (mInputManager->KeyDown(SDL_SCANCODE_ESCAPE)) {
+			mQuit = true;
+		}
+		if (mInputManager->KeyPressed(SDL_SCANCODE_SPACE)) {
+			std::cout << "Space Key Pressed" << std::endl;
+		}
+		if (mInputManager->KeyReleased(SDL_SCANCODE_SPACE)) {
+			std::cout << "Space Key Released" << std::endl;
+		}
+		if (mInputManager->MouseButtonPressed(InputManager::LEFT)) {
+			std::cout << "Left Mouse Button Pressed" << std::endl;
+		}
+		if (mInputManager->MouseButtonReleased(InputManager::LEFT)) {
+			std::cout << "Left Mouse Button Released" << std::endl;
+		}
 	}
 
 	void GameManager::LateUpdate() {
-
+		mInputManager->UpdatePrevInput();
 	}
 
 	void GameManager::Render() {
@@ -56,6 +132,7 @@ namespace SDLFramework {
 	GameManager::GameManager() : mQuit(false) {
 		//Calling to our Graphics singleton
 		mGraphics = Graphics::Instance();
+		mInputManager = InputManager::Instance();
 
 		if (!Graphics::Initialized) {
 			mQuit = true;
@@ -103,6 +180,9 @@ namespace SDLFramework {
 
 		AssetManager::Release();
 		mAssetManager = nullptr;
+
+		InputManager::Release();
+		mInputManager = nullptr;
 
 		//Quit SDL
 		SDL_Quit();

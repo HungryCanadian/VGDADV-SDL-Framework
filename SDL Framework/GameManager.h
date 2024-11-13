@@ -3,6 +3,7 @@
 #include "Timer.h"
 #include "GameEntity.h"
 #include "Texture.h"
+#include "InputManager.h"
 
 
 namespace SDLFramework {
@@ -34,6 +35,7 @@ namespace SDLFramework {
 		Graphics* mGraphics;
 		Timer* mTimer;
 		AssetManager* mAssetManager;
+		InputManager* mInputManager;
 
 
 		//Sanity Testing Variables
