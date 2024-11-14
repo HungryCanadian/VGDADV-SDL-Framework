@@ -93,5 +93,16 @@ namespace SDLFramework {
         delete[] mPrevKeyboardState;
         mPrevKeyboardState = nullptr;
     }
+
+    void InputManager::HandleInput() {
+        for (SDL_Scancode scancode : keysToCheck) {
+            if (KeyPressed(scancode)) {
+                std::cout << SDL_GetScancodeName(scancode) << " Key Pressed" << std::endl;
+            }
+            if (KeyReleased(scancode)) {
+                std::cout << SDL_GetScancodeName(scancode) << " Key Released" << std::endl;
+            }
+        }
+    }
 }
 

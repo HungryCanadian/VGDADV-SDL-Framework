@@ -36,6 +36,7 @@ namespace SDLFramework {
 
 	void GameManager::Update() {
 		mInputManager->Update();
+		mInputManager->HandleInput();
 
 		if (mInputManager->KeyDown(SDL_SCANCODE_W)) {
 			mTex->Translate(Vector2(0.0f, -40.0f) * mTimer->DeltaTime(), GameEntity::Local);			
@@ -73,38 +74,8 @@ namespace SDLFramework {
 		if (mInputManager->KeyDown(SDL_SCANCODE_L)) {
 			mRedShip->Rotation(mRedShip->getRotation(GameEntity::Local) + 180.0f * mTimer->DeltaTime());
 		}
-		if (mInputManager->KeyPressed(SDL_SCANCODE_W)) {
-			std::cout << "W Key Pressed" << std::endl;
-		}
-		if (mInputManager->KeyReleased(SDL_SCANCODE_W)) {
-			std::cout << "W Key Released" << std::endl;
-		}
-		if (mInputManager->KeyPressed(SDL_SCANCODE_S)) {
-			std::cout << "S Key Pressed" << std::endl;
-		}
-		if (mInputManager->KeyReleased(SDL_SCANCODE_S)) {
-			std::cout << "S Key Released" << std::endl;
-		}
-		if (mInputManager->KeyPressed(SDL_SCANCODE_A)) {
-			std::cout << "A Key Pressed" << std::endl;
-		}
-		if (mInputManager->KeyReleased(SDL_SCANCODE_A)) {
-			std::cout << "A Key Released" << std::endl;
-		}
-		if (mInputManager->KeyPressed(SDL_SCANCODE_D)) {
-			std::cout << "D Key Pressed" << std::endl;
-		}
-		if (mInputManager->KeyReleased(SDL_SCANCODE_D)) {
-			std::cout << "D Key Released" << std::endl;
-		}
 		if (mInputManager->KeyDown(SDL_SCANCODE_ESCAPE)) {
 			mQuit = true;
-		}
-		if (mInputManager->KeyPressed(SDL_SCANCODE_SPACE)) {
-			std::cout << "Space Key Pressed" << std::endl;
-		}
-		if (mInputManager->KeyReleased(SDL_SCANCODE_SPACE)) {
-			std::cout << "Space Key Released" << std::endl;
 		}
 		if (mInputManager->MouseButtonPressed(InputManager::LEFT)) {
 			std::cout << "Left Mouse Button Pressed" << std::endl;
@@ -140,22 +111,22 @@ namespace SDLFramework {
 
 		mTimer = Timer::Instance();
 		mAssetManager = AssetManager::Instance();
-
-		mTex = new Texture("SpriteSheet.png", 182, 54, 20, 20);
+		//Enemyship and playership art done by Kenney.nl on opengameart.org
+		mTex = new Texture("enemyShip.png");
 		mTex->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
-		mTex->Scale(Vector2(2.0f, 2.0f));
+		mTex->Scale(Vector2(0.3f, 0.3f));
 
-		mRedShip = new Texture("SpriteSheet.png", 182, 74, 20, 20);
+		mRedShip = new Texture("player.png");
 		mRedShip->Position(Vector2(Graphics::SCREEN_WIDTH * 0.4f, Graphics::SCREEN_HEIGHT * 0.49f));
-		mRedShip->Scale(Vector2(2.0f, 2.0f));
+		mRedShip->Scale(Vector2(0.3f, 0.3f));
 
-		mGreenGalaga = new Texture("SpriteSheet.png", 182, 100, 20, 20);
-		mGreenGalaga->Position(Vector2(Graphics::SCREEN_WIDTH * 0.3f, Graphics::SCREEN_HEIGHT * 0.49f));
-		mGreenGalaga->Scale(Vector2(2.0f, 2.0f));
+		//mGreenGalaga = new Texture("SpriteSheet.png", 182, 100, 20, 20);
+		//mGreenGalaga->Position(Vector2(Graphics::SCREEN_WIDTH * 0.3f, Graphics::SCREEN_HEIGHT * 0.49f));
+		//mGreenGalaga->Scale(Vector2(2.0f, 2.0f));
 
-		mPurpleGalaga = new Texture("SpriteSheet.png", 182, 125, 20, 20);
-		mPurpleGalaga->Position(Vector2(Graphics::SCREEN_WIDTH * 0.2f, Graphics::SCREEN_HEIGHT * 0.49f));
-		mPurpleGalaga->Scale(Vector2(2.0f, 2.0f));
+		//mPurpleGalaga = new Texture("SpriteSheet.png", 182, 125, 20, 20);
+		//mPurpleGalaga->Position(Vector2(Graphics::SCREEN_WIDTH * 0.2f, Graphics::SCREEN_HEIGHT * 0.49f));
+		//mPurpleGalaga->Scale(Vector2(2.0f, 2.0f));
 		
 
 	}
