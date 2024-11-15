@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <SDL_image.h>
+#include <SDL_ttf.h>
 
 namespace SDLFramework {
 	class Graphics {
@@ -16,8 +17,11 @@ namespace SDLFramework {
 		static bool Initialized();
 
 		SDL_Texture* LoadTexture(std::string path);
+
 		void DrawTexture(SDL_Texture* texture, SDL_Rect* srcRect = nullptr, SDL_Rect* dst_Rect = nullptr,
 			float angle = 0.0f, SDL_RendererFlip = SDL_FLIP_NONE);
+
+		SDL_Texture* CreateTextTexture(TTF_Font*, std::string text, SDL_Color color);
 
 		//Clean up that happens to the area in memory that draws the next frame
 		void ClearBackBuffer();

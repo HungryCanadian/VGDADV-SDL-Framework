@@ -33,7 +33,7 @@ namespace SDLFramework{
 		float mTimePerFrame;
 		float mAnimationTimer;
 
-		WrapMode mWrapModel;
+		WrapMode mWrapMode;
 		AnimDir mAnimationDirection;
 
 		bool mAnimationDone;

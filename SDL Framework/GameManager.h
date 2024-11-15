@@ -1,8 +1,6 @@
 #pragma once
 #include "Graphics.h"
-#include "Timer.h"
-#include "GameEntity.h"
-#include "Texture.h"
+#include "AnimatedTexture.h"
 #include "InputManager.h"
 
 
@@ -39,10 +37,12 @@ namespace SDLFramework {
 
 
 		//Sanity Testing Variables
-		Texture* mTex;
+		AnimatedTexture* mTex;
 		Texture* mRedShip;
-		Texture* mGreenGalaga;
-		Texture* mPurpleGalaga;
+		
+		Texture* mFontTex;
+		Texture* mBackground2;
+
 
 		SDL_Event mEvents;
 

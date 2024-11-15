@@ -37,6 +37,8 @@ namespace SDLFramework {
 	void GameManager::Update() {
 		mInputManager->Update();
 		mInputManager->HandleInput();
+		mTex->Update();
+		mRedShip->Update();
 
 		if (mInputManager->KeyDown(SDL_SCANCODE_W)) {
 			mTex->Translate(Vector2(0.0f, -40.0f) * mTimer->DeltaTime(), GameEntity::Local);			
@@ -92,10 +94,13 @@ namespace SDLFramework {
 	void GameManager::Render() {
 		mGraphics->ClearBackBuffer();
 
+		mBackground2->Render();
 		mTex->Render();
 		mRedShip->Render();
-		mGreenGalaga->Render();
-		mPurpleGalaga->Render();
+		mFontTex->Render();
+		
+//		mGreenGalaga->Render();
+//		mPurpleGalaga->Render();
 
 		mGraphics->Render();
 	}
@@ -111,14 +116,22 @@ namespace SDLFramework {
 
 		mTimer = Timer::Instance();
 		mAssetManager = AssetManager::Instance();
-		//Enemyship and playership art done by Kenney.nl on opengameart.org
-		mTex = new Texture("enemyShip.png");
+
+		mTex = new AnimatedTexture("SpriteSheet.png", 204, 45, 40, 38, 4, 0.5f, AnimatedTexture::Horizontal);
 		mTex->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
-		mTex->Scale(Vector2(0.3f, 0.3f));
+		mTex->Scale(Vector2(2.3f, 2.3f));
 
 		mRedShip = new Texture("player.png");
-		mRedShip->Position(Vector2(Graphics::SCREEN_WIDTH * 0.4f, Graphics::SCREEN_HEIGHT * 0.49f));
-		mRedShip->Scale(Vector2(0.3f, 0.3f));
+		mRedShip->Position(Vector2(Graphics::SCREEN_WIDTH * 0.35f, Graphics::SCREEN_HEIGHT * 0.49f));
+		mRedShip->Scale(Vector2(0.5f, 0.5f));
+
+		mFontTex = new Texture("Caspiran Galaga", "ToThePoint.ttf", 100, { 0, 0, 225 });
+		mFontTex->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.05f));
+
+		mBackground2 = new Texture("background.jpg");
+		mBackground2->Position(Vector2(Graphics::SCREEN_WIDTH * 0.4f, Graphics::SCREEN_HEIGHT * 0.5f));
+		mBackground2->Scale(Vector2(1.3f, 1.3f));
+		
 
 		//mGreenGalaga = new Texture("SpriteSheet.png", 182, 100, 20, 20);
 		//mGreenGalaga->Position(Vector2(Graphics::SCREEN_WIDTH * 0.3f, Graphics::SCREEN_HEIGHT * 0.49f));
@@ -137,10 +150,10 @@ namespace SDLFramework {
 		mTex = nullptr;
 		delete mRedShip;
 		mRedShip = nullptr;
-		delete mGreenGalaga;
-		mGreenGalaga = nullptr;
-		delete mPurpleGalaga;
-		mPurpleGalaga = nullptr;
+		delete mFontTex;
+		mFontTex = nullptr;
+		delete mBackground2;
+		mBackground2 = nullptr;
 
 		//Release Modules
 		Graphics::Release();

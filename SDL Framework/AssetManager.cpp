@@ -16,6 +16,8 @@ namespace SDLFramework {
 		sInstance = nullptr;
 	}
 
+
+
 	SDL_Texture* AssetManager::getTexture(std::string filename, bool managed) {
 		std::string fullPath = SDL_GetBasePath();
 		fullPath.append("Assets/" + filename);
@@ -29,6 +31,44 @@ namespace SDLFramework {
 		}
 
 		return mTextures[fullPath];
+	}
+
+	SDL_Texture* AssetManager::getText(std::string text, std::string filename, int size, SDL_Color color, bool managed) {
+		std::stringstream ss;
+
+		ss << size << (int)color.r << (int)color.g << (int)color.b;
+		std::string key = text + filename + ss.str();
+
+		if (mTextures[key] == nullptr) {
+			TTF_Font* font = getFont(filename, size);
+			mTextures[key] = Graphics::Instance()->CreateTextTexture(font, text, color);
+		}
+
+		if (mTextures[key] != nullptr && managed) {
+			mTextureRefCount[mTextures[key]] += 1;
+		}
+
+		return mTextures[key];
+
+	}
+
+	TTF_Font* AssetManager::getFont(std::string filename, int size) {
+		std::string fullpath = SDL_GetBasePath();
+		fullpath.append("Assets/" + filename);
+
+		std::stringstream ss;
+		ss << size;
+		std::string key = fullpath + ss.str();
+
+		if (mFonts[key] == nullptr) {
+			mFonts[key] = TTF_OpenFont(fullpath.c_str(), size);
+
+			if (mFonts[key] == nullptr) {
+				std::cerr << "Unable to load Font: " << filename << "! TTF Error: " << TTF_GetError() << "\n";
+			}
+		}
+
+		return mFonts[key];
 	}
 
 	void AssetManager::DestroyTexture(SDL_Texture* texture) {
