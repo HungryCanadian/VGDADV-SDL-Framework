@@ -34,6 +34,7 @@ namespace SDLFramework {
 		}
 	}
 
+
 	void GameManager::Update() {
 		mInputManager->Update();
 		mInputManager->HandleInput();
@@ -80,10 +81,11 @@ namespace SDLFramework {
 			mQuit = true;
 		}
 		if (mInputManager->MouseButtonPressed(InputManager::LEFT)) {
-			std::cout << "Left Mouse Button Pressed" << std::endl;
+			std::cout << "Left Mouse Button Pressed" << "\n";
+			mAudioManager->PlaySFX("coin_credit.wav", 0, -1);
 		}
 		if (mInputManager->MouseButtonReleased(InputManager::LEFT)) {
-			std::cout << "Left Mouse Button Released" << std::endl;
+			std::cout << "Left Mouse Button Released" << "\n";
 		}
 	}
 
@@ -106,16 +108,17 @@ namespace SDLFramework {
 	}
 
 	GameManager::GameManager() : mQuit(false) {
-		//Calling to our Graphics singleton
+		mTimer = Timer::Instance();
 		mGraphics = Graphics::Instance();
 		mInputManager = InputManager::Instance();
+		mAudioManager = AudioManager::Instance();
+		mAssetManager = AssetManager::Instance();
 
 		if (!Graphics::Initialized) {
 			mQuit = true;
 		}
 
-		mTimer = Timer::Instance();
-		mAssetManager = AssetManager::Instance();
+		
 
 		mTex = new AnimatedTexture("SpriteSheet.png", 204, 45, 40, 38, 4, 0.5f, AnimatedTexture::Horizontal);
 		mTex->Position(Vector2(Graphics::SCREEN_WIDTH * 0.5f, Graphics::SCREEN_HEIGHT * 0.5f));
@@ -132,7 +135,7 @@ namespace SDLFramework {
 		mBackground2->Position(Vector2(Graphics::SCREEN_WIDTH * 0.4f, Graphics::SCREEN_HEIGHT * 0.5f));
 		mBackground2->Scale(Vector2(1.3f, 1.3f));
 		
-
+		mAudioManager->PlayMusic("Ambience.mp3", -1);
 		//mGreenGalaga = new Texture("SpriteSheet.png", 182, 100, 20, 20);
 		//mGreenGalaga->Position(Vector2(Graphics::SCREEN_WIDTH * 0.3f, Graphics::SCREEN_HEIGHT * 0.49f));
 		//mGreenGalaga->Scale(Vector2(2.0f, 2.0f));
@@ -167,6 +170,10 @@ namespace SDLFramework {
 
 		InputManager::Release();
 		mInputManager = nullptr;
+
+		AudioManager::Release();
+		mAudioManager = nullptr;
+
 
 		//Quit SDL
 		SDL_Quit();
