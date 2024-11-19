@@ -135,7 +135,8 @@ namespace SDLFramework {
 		mBackground2->Position(Vector2(Graphics::SCREEN_WIDTH * 0.4f, Graphics::SCREEN_HEIGHT * 0.5f));
 		mBackground2->Scale(Vector2(1.3f, 1.3f));
 		
-		mAudioManager->PlayMusic("Ambience.mp3", -1);
+		mAudioManager->PlayMusic("BeachAmbience.mp3", -1);
+		//mAudioManager->PlayMusic("TavernAmbience.mp3", -1);
 		//mGreenGalaga = new Texture("SpriteSheet.png", 182, 100, 20, 20);
 		//mGreenGalaga->Position(Vector2(Graphics::SCREEN_WIDTH * 0.3f, Graphics::SCREEN_HEIGHT * 0.49f));
 		//mGreenGalaga->Scale(Vector2(2.0f, 2.0f));

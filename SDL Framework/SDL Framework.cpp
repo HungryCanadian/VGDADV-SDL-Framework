@@ -10,7 +10,7 @@ int main(int argc, char* args[])
 {
 	GameManager* game = GameManager::Instance();
 
-	game->Run();
+	game->Run(); //Debug colliders shown/unshown is stored within Collider.h
 
 	GameManager::Release();
 	game = nullptr;	
