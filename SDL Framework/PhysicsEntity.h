@@ -26,7 +26,7 @@ namespace SDLFramework {
 		
 		virtual bool IgnoreCollisions();
 
-		void AddCollider(Collider* collider, Vector2 localPos = Vec2_Zero)
+		void AddCollider(Collider* collider, Vector2 localPos = Vec2_Zero);
 	};
 
 }
