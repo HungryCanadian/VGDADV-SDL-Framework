@@ -13,12 +13,16 @@ namespace SDLFramework {
 
 		bool CheckCollision(PhysicsEntity* other);
 
-		virtual void Hit(PhysicsEntity* other);
+		virtual void Hit(PhysicsEntity* other) { std::cout << "A Collision has Happened!\n"; }
 
 		virtual void Render() override;
 
-	protected:
+		//TODO: Temporarily here. need access for testing.
+		void AddCollider(Collider* collider, Vector2 localPos = Vec2_Zero);
 		unsigned long mId;
+
+	protected:
+		
 
 		std::vector<Collider*> mColliders;
 
@@ -26,7 +30,9 @@ namespace SDLFramework {
 		
 		virtual bool IgnoreCollisions();
 
-		void AddCollider(Collider* collider, Vector2 localPos = Vec2_Zero);
+		//TODO: Uncomment once permission stuff is sorted.
+		//void AddCollider(Collider* collider, Vector2 localPos = Vec2_Zero);
+		//unsigned long mId;
 	};
 
 }

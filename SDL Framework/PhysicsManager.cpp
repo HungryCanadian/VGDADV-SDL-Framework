@@ -63,19 +63,19 @@ namespace SDLFramework {
 		for (int i = 0; i < static_cast<unsigned int>(CollisionLayers::MaxLayers); i++) {
 			//Iteration 2 - Looking through all of our layers
 			//ask about the difference between the two iterations after break
-			for (int a = 0; a < static_cast<unsigned int>(CollisionLayers::MaxLayers); a++) {
-				if (mLayerMasks[i].test(a) && i <= a) {
+			for (int j = 0; j < static_cast<unsigned int>(CollisionLayers::MaxLayers); j++) {
+				if (mLayerMasks[i].test(j) && i <= j) {
 					//Iteration 1 - looking through all of our objects on iterations 1's layer
-					for (int b = 0; b < mCollisionLayers[i].size(); b++) {
+					for (int k = 0; k < mCollisionLayers[i].size(); k++) {
 						//iteration 2 - looking through all of our objects on iterations 2's layer
-						for (int c = 0; b < mCollisionLayers[i].size(); c++) {
+						for (int l = 0; l < mCollisionLayers[i].size(); l++) {
 							//This is where the actual collision check is happening!
-							if (mCollisionLayers[i][b]->CheckCollision(mCollisionLayers[a][c])) {
+							if (mCollisionLayers[i][k]->CheckCollision(mCollisionLayers[j][l])) {
 								//a Collision has occured
-								//Our first object has hit our second object
-								mCollisionLayers[i][b]->Hit(mCollisionLayers[a][c]);
+								//our first object has hit our second object
+								mCollisionLayers[i][k]->Hit(mCollisionLayers[j][l]);
 								//our second object has hit our first object
-								mCollisionLayers[a][c]->Hit(mCollisionLayers[i][b]);
+								mCollisionLayers[j][l]->Hit(mCollisionLayers[i][k]);
 							}
 						}
 					}

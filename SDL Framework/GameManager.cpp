@@ -1,5 +1,8 @@
 #include "GameManager.h"
 
+//TODO: Remove this include after testing.
+#include "BoxCollider.h"
+
 namespace SDLFramework {
 
 	GameManager* GameManager::sInstance = nullptr;
@@ -90,7 +93,9 @@ namespace SDLFramework {
 	}
 
 	void GameManager::LateUpdate() {
+		mPhysicsManager->Update();
 		mInputManager->UpdatePrevInput();
+		
 	}
 
 	void GameManager::Render() {
@@ -100,6 +105,9 @@ namespace SDLFramework {
 		mTex->Render();
 		mRedShip->Render();
 		mFontTex->Render();
+		
+		mPhysone->Render();
+		mPhystwo->Render();
 		
 //		mGreenGalaga->Render();
 //		mPurpleGalaga->Render();
@@ -113,6 +121,25 @@ namespace SDLFramework {
 		mInputManager = InputManager::Instance();
 		mAudioManager = AudioManager::Instance();
 		mAssetManager = AssetManager::Instance();
+		mPhysicsManager = PhysicsManager::Instance();
+
+		//Create the Physics Layers
+		mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Friendly, 
+			PhysicsManager::CollisionFlags::Hostile | 
+			PhysicsManager::CollisionFlags::HostileProjectile);
+
+		mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::Hostile, 
+			PhysicsManager::CollisionFlags::Friendly | 
+			PhysicsManager::CollisionFlags::FriendlyProjectile);
+
+		mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::FriendlyProjectile, 
+			PhysicsManager::CollisionFlags::HostileProjectile |
+			PhysicsManager::CollisionFlags::Hostile);
+
+		mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::HostileProjectile, 
+			PhysicsManager::CollisionFlags::FriendlyProjectile |
+			PhysicsManager::CollisionFlags::Friendly);
+
 
 		if (!Graphics::Initialized) {
 			mQuit = true;
@@ -136,6 +163,23 @@ namespace SDLFramework {
 		mBackground2->Scale(Vector2(1.3f, 1.3f));
 		
 		mAudioManager->PlayMusic("BeachAmbience.mp3", -1);
+
+		std::cout << "Everything before PhysicsEntities has loaded.\nTrying to create Entities now!\n";
+
+		mPhysone = new PhysicsEntity();
+		mPhysone->Position(Vector2(Graphics::SCREEN_WIDTH * 0.3f, Graphics::SCREEN_HEIGHT * 0.5f));
+		mPhysone->AddCollider(new BoxCollider(Vector2(20.0f, 20.0f)));
+		mPhysone->mId = mPhysicsManager->RegisterEntity(mPhysone, PhysicsManager::CollisionLayers::Friendly);
+		std::cout << "Registering mPhysone with ID: " << mPhysone->mId << std::endl;
+		
+
+		mPhystwo = new PhysicsEntity();
+		mPhystwo->Position(Vector2(Graphics::SCREEN_WIDTH * 0.6f, Graphics::SCREEN_HEIGHT * 0.5f));
+		mPhystwo->AddCollider(new BoxCollider(Vector2(20.0f, 20.0f)));
+		mPhystwo->mId = mPhysicsManager->RegisterEntity(mPhystwo, PhysicsManager::CollisionLayers::Hostile);
+		std::cout << "Registering mPhystwo with ID: " << mPhystwo->mId << std::endl;
+
+
 		//mAudioManager->PlayMusic("TavernAmbience.mp3", -1);
 		//mGreenGalaga = new Texture("SpriteSheet.png", 182, 100, 20, 20);
 		//mGreenGalaga->Position(Vector2(Graphics::SCREEN_WIDTH * 0.3f, Graphics::SCREEN_HEIGHT * 0.49f));
@@ -152,12 +196,23 @@ namespace SDLFramework {
 		//Release Variables
 		delete mTex;
 		mTex = nullptr;
+
 		delete mRedShip;
 		mRedShip = nullptr;
+
 		delete mFontTex;
 		mFontTex = nullptr;
+
 		delete mBackground2;
 		mBackground2 = nullptr;
+
+		delete mPhysone;
+		mPhysone = nullptr;
+
+		delete mPhystwo;
+		mPhystwo = nullptr;
+
+
 
 		//Release Modules
 		Graphics::Release();
@@ -174,6 +229,9 @@ namespace SDLFramework {
 
 		AudioManager::Release();
 		mAudioManager = nullptr;
+
+		PhysicsManager::Release();
+		mPhysicsManager = nullptr;
 
 
 		//Quit SDL

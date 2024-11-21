@@ -20,6 +20,10 @@ namespace SDLFramework {
 			PointToLineDistance(box->getVertexPos(3), box->getVertexPos(1), circlePos) < radius) {
 			return true;
 		}
+		
+		//if (PointinPolygon(quad, 4, circlePos)) {
+		//	return true; // Circle is INSIDE our box collider. - collision
+		//}
 		return false;
 	}
 	//box vs box
@@ -31,14 +35,17 @@ namespace SDLFramework {
 		projAxes[2] = (box2->getVertexPos(0) - box2->getVertexPos(1)).Normalized();
 		projAxes[3] = (box2->getVertexPos(0) - box2->getVertexPos(2)).Normalized();
 
-		float box1Min = 0.0f, box1Max = 0.0f;
-		float box2Min = 0.0f, box2Max = 0.0f;
-		float proj1 = 0.0f, proj2 = 0.0f;
+		float box1Min = 0.0f;
+		float box1Max = 0.0f;
+		float box2Min = 0.0f; 
+		float box2Max = 0.0f;
+		float proj1 = 0.0f; 
+		float proj2 = 0.0f;
 
-		for (int a = 0; a < 4; a++) {
+		for (int i = 0; i < 4; i++) {
 			for (int v = 0; v < 4; v++) {
-				proj1 = Dot(box1->getVertexPos(v), projAxes[a]);
-				proj2 = Dot(box2->getVertexPos(v), projAxes[a]);
+				proj1 = Dot(box1->getVertexPos(v), projAxes[i]);
+				proj2 = Dot(box2->getVertexPos(v), projAxes[i]);
 
 				if (v == 0) {
 					box1Min = box1Max = proj1;
@@ -68,7 +75,8 @@ namespace SDLFramework {
 			return true;
 		}
 	}
-	inline bool ColliderVsColliderCheck(Collider* c1, Collider* c2) {
+
+	inline bool ColliderVsColliderCheck(Collider* c1, Collider* c2) { //c1 = Collider 1, c2 = Collider 2
 		if (c1->getType() == Collider::ColliderType::Circle && c2->getType() == Collider::ColliderType::Circle)
 			return CircleVsCircleCollision(static_cast<CircleCollider*>(c1), static_cast<CircleCollider*>(c2));
 		else if (c1->getType() == Collider::ColliderType::Box && c2->getType() == Collider::ColliderType::Circle)
