@@ -68,7 +68,7 @@ namespace SDLFramework {
 					//Iteration 1 - looking through all of our objects on iterations 1's layer
 					for (int k = 0; k < mCollisionLayers[i].size(); k++) {
 						//iteration 2 - looking through all of our objects on iterations 2's layer
-						for (int l = 0; l < mCollisionLayers[i].size(); l++) {
+						for (int l = 0; l < mCollisionLayers[j].size(); l++) {
 							//This is where the actual collision check is happening!
 							if (mCollisionLayers[i][k]->CheckCollision(mCollisionLayers[j][l])) {
 								//a Collision has occured

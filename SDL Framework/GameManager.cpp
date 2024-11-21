@@ -45,40 +45,40 @@ namespace SDLFramework {
 		mRedShip->Update();
 
 		if (mInputManager->KeyDown(SDL_SCANCODE_W)) {
-			mTex->Translate(Vector2(0.0f, -40.0f) * mTimer->DeltaTime(), GameEntity::Local);			
+			mPhysone->Translate(Vector2(0.0f, -40.0f) * mTimer->DeltaTime(), GameEntity::Local);			
 		}
 		else if (mInputManager->KeyDown(SDL_SCANCODE_S)) {
-			mTex->Translate(Vector2(0.0f, 40.0f) * mTimer->DeltaTime(), GameEntity::Local);
+			mPhysone->Translate(Vector2(0.0f, 40.0f) * mTimer->DeltaTime(), GameEntity::Local);
 		}
 		if (mInputManager->KeyDown(SDL_SCANCODE_A)) {
-			mTex->Translate(Vector2(-40.0f, 0.0f) * mTimer->DeltaTime(), GameEntity::Local);
+			mPhysone->Translate(Vector2(-40.0f, 0.0f) * mTimer->DeltaTime(), GameEntity::Local);
 		}
 		else if (mInputManager->KeyDown(SDL_SCANCODE_D)) {
-			mTex->Translate(Vector2(40.0f, 0.0f) * mTimer->DeltaTime(), GameEntity::Local);
+			mPhysone->Translate(Vector2(40.0f, 0.0f) * mTimer->DeltaTime(), GameEntity::Local);
 		}
 		if (mInputManager->KeyDown(SDL_SCANCODE_Q)) {
-			mTex->Rotation(mTex->getRotation(GameEntity::Local) + -180.0f * mTimer->DeltaTime());
+			mPhysone->Rotation(mPhysone->getRotation(GameEntity::Local) + -180.0f * mTimer->DeltaTime());
 		}
 		else if (mInputManager->KeyDown(SDL_SCANCODE_E)) {
-			mTex->Rotation(mTex->getRotation(GameEntity::Local) + 180.0f * mTimer->DeltaTime());
+			mPhysone->Rotation(mPhysone->getRotation(GameEntity::Local) + 180.0f * mTimer->DeltaTime());
 		}
 		if (mInputManager->KeyDown(SDL_SCANCODE_Z)) {
-			mTex->Scale(mTex->getScale() + Vector2(0.1f, 0.1f));
+			mPhysone->Scale(mPhysone->getScale() + Vector2(0.1f, 0.1f));
 		}
 		else if (mInputManager->KeyDown(SDL_SCANCODE_C)) {
-			mTex->Scale(mTex->getScale() - Vector2(0.1f, 0.1f));
+			mPhysone->Scale(mPhysone->getScale() - Vector2(0.1f, 0.1f));
 		}
 		if (mInputManager->KeyDown(SDL_SCANCODE_I)) {
-			mRedShip->Translate(Vector2(0.0f, -40.0f) * mTimer->DeltaTime(), GameEntity::Local);
+			mPhystwo->Translate(Vector2(0.0f, -40.0f) * mTimer->DeltaTime(), GameEntity::Local);
 		}
 		if (mInputManager->KeyDown(SDL_SCANCODE_K)) {
-			mRedShip->Translate(Vector2(0.0f, 40.0f) * mTimer->DeltaTime(), GameEntity::Local);
+			mPhystwo->Translate(Vector2(0.0f, 40.0f) * mTimer->DeltaTime(), GameEntity::Local);
 		}
 		if (mInputManager->KeyDown(SDL_SCANCODE_J)) {
-			mRedShip->Rotation(mRedShip->getRotation(GameEntity::Local) + -180.0f * mTimer->DeltaTime());
+			mPhystwo->Rotation(mPhystwo->getRotation(GameEntity::Local) + -180.0f * mTimer->DeltaTime());
 		}
 		if (mInputManager->KeyDown(SDL_SCANCODE_L)) {
-			mRedShip->Rotation(mRedShip->getRotation(GameEntity::Local) + 180.0f * mTimer->DeltaTime());
+			mPhystwo->Rotation(mPhystwo->getRotation(GameEntity::Local) + 180.0f * mTimer->DeltaTime());
 		}
 		if (mInputManager->KeyDown(SDL_SCANCODE_ESCAPE)) {
 			mQuit = true;
@@ -133,11 +133,9 @@ namespace SDLFramework {
 			PhysicsManager::CollisionFlags::FriendlyProjectile);
 
 		mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::FriendlyProjectile, 
-			PhysicsManager::CollisionFlags::HostileProjectile |
 			PhysicsManager::CollisionFlags::Hostile);
 
 		mPhysicsManager->SetLayerCollisionMask(PhysicsManager::CollisionLayers::HostileProjectile, 
-			PhysicsManager::CollisionFlags::FriendlyProjectile |
 			PhysicsManager::CollisionFlags::Friendly);
 
 
@@ -164,20 +162,18 @@ namespace SDLFramework {
 		
 		mAudioManager->PlayMusic("BeachAmbience.mp3", -1);
 
-		std::cout << "Everything before PhysicsEntities has loaded.\nTrying to create Entities now!\n";
-
 		mPhysone = new PhysicsEntity();
 		mPhysone->Position(Vector2(Graphics::SCREEN_WIDTH * 0.3f, Graphics::SCREEN_HEIGHT * 0.5f));
 		mPhysone->AddCollider(new BoxCollider(Vector2(20.0f, 20.0f)));
 		mPhysone->mId = mPhysicsManager->RegisterEntity(mPhysone, PhysicsManager::CollisionLayers::Friendly);
-		std::cout << "Registering mPhysone with ID: " << mPhysone->mId << std::endl;
+
 		
 
 		mPhystwo = new PhysicsEntity();
 		mPhystwo->Position(Vector2(Graphics::SCREEN_WIDTH * 0.6f, Graphics::SCREEN_HEIGHT * 0.5f));
 		mPhystwo->AddCollider(new BoxCollider(Vector2(20.0f, 20.0f)));
 		mPhystwo->mId = mPhysicsManager->RegisterEntity(mPhystwo, PhysicsManager::CollisionLayers::Hostile);
-		std::cout << "Registering mPhystwo with ID: " << mPhystwo->mId << std::endl;
+
 
 
 		//mAudioManager->PlayMusic("TavernAmbience.mp3", -1);

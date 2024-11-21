@@ -59,12 +59,10 @@ namespace SDLFramework {
 	void PhysicsEntity::Render() {
 		for (auto colliders : mColliders) {
 			colliders->Render();
-			std::cout << "Attempting Collider Render";
 		}
 
 		if (mBroadPhaseCollider) {
 			mBroadPhaseCollider->Render();
-			std::cout << "Attempting BroadPhase Collider Render";
 		}
 	}
 
@@ -78,8 +76,11 @@ namespace SDLFramework {
 		if (mBroadPhaseCollider && other->mBroadPhaseCollider) {
 			narrowPhaseCheck = ColliderVsColliderCheck(mBroadPhaseCollider, other->mBroadPhaseCollider);
 		}
+		else {
+			narrowPhaseCheck = true;
+		}
 
-		if (narrowPhaseCheck == true) {
+		if (narrowPhaseCheck) {
 			for (int i = 0; i < mColliders.size(); i++) {
 				for (int j = 0; j < other->mColliders.size(); j++) {
 					if (ColliderVsColliderCheck(mColliders[i], other->mColliders[j])) {
