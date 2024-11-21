@@ -69,7 +69,7 @@ namespace SDLFramework {
 	}
 
 	bool PhysicsEntity::CheckCollision(PhysicsEntity* other) {
-		if (IgnoreCollisions() | other->IgnoreCollisions()) {
+		if (IgnoreCollisions() || other->IgnoreCollisions()) {
 			return false;
 		}
 
