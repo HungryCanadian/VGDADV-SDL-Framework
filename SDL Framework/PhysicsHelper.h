@@ -14,6 +14,20 @@ namespace SDLFramework {
 		Vector2 circlePos = circle->getPosition();
 		float radius = circle->getRadius();
 
+		Vector2 quad[4];
+		quad[0] = box->getVertexPos(0);
+		quad[1] = box->getVertexPos(1);
+		quad[2] = box->getVertexPos(2);
+		quad[3] = box->getVertexPos(3);
+
+		//Vertex Collision Check
+		for (int i = 0; i < 4; i++) {
+			if ((quad[i] - circlePos).Magnitude() < radius) {
+				//We have an edge of our sqaure inside our circle collider
+				return true;
+			}
+		}
+
 		if (PointToLineDistance(box->getVertexPos(0), box->getVertexPos(1), circlePos) < radius ||
 			PointToLineDistance(box->getVertexPos(0), box->getVertexPos(2), circlePos) < radius ||
 			PointToLineDistance(box->getVertexPos(2), box->getVertexPos(3), circlePos) < radius ||
@@ -21,9 +35,9 @@ namespace SDLFramework {
 			return true;
 		}
 		
-		//if (PointinPolygon(quad, 4, circlePos)) {
-		//	return true; // Circle is INSIDE our box collider. - collision
-		//}
+		if (PointinPolygon(quad, 4, circlePos)) {
+			return true; // Circle is INSIDE our box collider. - collision
+		}
 		return false;
 	}
 	//box vs box
