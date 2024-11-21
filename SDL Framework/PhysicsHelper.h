@@ -8,6 +8,7 @@ namespace SDLFramework {
 	//circle vs circle
 	inline bool CircleVsCircleCollision(CircleCollider* circle1, CircleCollider* circle2) {
 		return (circle1->getPosition() - circle2->getPosition()).Magnitude() < (circle1->getRadius() + circle2->getRadius());
+
 	}
 	//circle vs box
 	inline bool BoxVsCircleCollision(BoxCollider* box, CircleCollider* circle) {
@@ -24,6 +25,7 @@ namespace SDLFramework {
 		for (int i = 0; i < 4; i++) {
 			if ((quad[i] - circlePos).Magnitude() < radius) {
 				//We have an edge of our sqaure inside our circle collider
+				std::cout << "BoxVsCircleCollision: Vertex collision detected" << std::endl;
 				return true;
 			}
 		}
@@ -32,10 +34,12 @@ namespace SDLFramework {
 			PointToLineDistance(box->getVertexPos(0), box->getVertexPos(2), circlePos) < radius ||
 			PointToLineDistance(box->getVertexPos(2), box->getVertexPos(3), circlePos) < radius ||
 			PointToLineDistance(box->getVertexPos(3), box->getVertexPos(1), circlePos) < radius) {
+			std::cout << "BoxVsCircleCollision: Edge collision detected" << std::endl;
 			return true;
 		}
 		
 		if (PointinPolygon(quad, 4, circlePos)) {
+			std::cout << "BoxVsCircleCollision: Circle inside box" << std::endl;
 			return true; // Circle is INSIDE our box collider. - collision
 		}
 		return false;
@@ -43,7 +47,6 @@ namespace SDLFramework {
 	//box vs box
 	inline bool BoxVsBoxCollision(BoxCollider* box1, BoxCollider* box2) {
 		Vector2 projAxes[4];
-
 		projAxes[0] = (box1->getVertexPos(0) - box1->getVertexPos(1)).Normalized();
 		projAxes[1] = (box1->getVertexPos(0) - box1->getVertexPos(2)).Normalized();
 		projAxes[2] = (box2->getVertexPos(0) - box2->getVertexPos(1)).Normalized();
@@ -51,43 +54,49 @@ namespace SDLFramework {
 
 		float box1Min = 0.0f;
 		float box1Max = 0.0f;
-		float box2Min = 0.0f; 
+		float box2Min = 0.0f;
 		float box2Max = 0.0f;
-		float proj1 = 0.0f; 
+		float proj1 = 0.0f;
 		float proj2 = 0.0f;
 
 		for (int i = 0; i < 4; i++) {
-			for (int v = 0; v < 4; v++) {
-				proj1 = Dot(box1->getVertexPos(v), projAxes[i]);
-				proj2 = Dot(box2->getVertexPos(v), projAxes[i]);
+			for (int j = 0; j < 4; j++) {
+				proj1 = Dot(box1->getVertexPos(j), projAxes[i]);
+				proj2 = Dot(box2->getVertexPos(j), projAxes[i]);
 
-				if (v == 0) {
+				if (j == 0) {
 					box1Min = box1Max = proj1;
-					box2Min = box2Max = proj2;
 				}
 				else {
-					if (proj1 < box1Min)
+					if (proj1 < box1Min) {
 						box1Min = proj1;
-					if (proj1 > box1Max)
+					}
+					if (proj1 > box1Max) {
 						box1Max = proj1;
+					}
 
-					if (proj2 < box2Min)
+					if (proj2 < box2Min) {
 						box2Min = proj2;
-					if (proj2 > box2Max)
+					}
+					if (proj2 > box2Max) {
 						box2Max = proj2;
-				}
-				float halfDist1 = (box1Max - box1Min) * 0.5f;
-				float midPoint1 = box1Min + halfDist1;
-
-				float halfDist2 = (box2Max - box2Min) * 0.5f;
-				float midPoint2 = box2Min + halfDist2;
-
-				if (abs(midPoint1 - midPoint2) > (halfDist1 + halfDist2)) {
-					return false;
+					}
 				}
 			}
-			return true;
+
+			//At this point, we have our two box projections
+			float halfDist1 = (box1Max - box1Min) * 0.5f;
+			float midPoint1 = box1Min + halfDist1;
+
+			float halfDist2 = (box2Max - box2Min) * 0.5f;
+			float midPoint2 = box2Min + halfDist2;
+
+			if (abs(midPoint1 - midPoint2) > (halfDist1 + halfDist2)) {
+				return false;
+			}
 		}
+
+		//Implicitly returns true
 	}
 
 	inline bool ColliderVsColliderCheck(Collider* c1, Collider* c2) { //c1 = Collider 1, c2 = Collider 2
