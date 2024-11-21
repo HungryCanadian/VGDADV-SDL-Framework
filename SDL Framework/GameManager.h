@@ -40,7 +40,7 @@ namespace SDLFramework {
 		PhysicsManager* mPhysicsManager;
 
 
-		//Sanity Testing Variables
+		//Example Variables
 		AnimatedTexture* mTex;
 		Texture* mRedShip;
 		

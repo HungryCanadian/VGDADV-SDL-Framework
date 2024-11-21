@@ -17,9 +17,6 @@ namespace SDLFramework {
 
 		virtual void Render() override;
 
-		//TODO: Temporarily here. need access for testing.
-		void AddCollider(Collider* collider, Vector2 localPos = Vec2_Zero);
-		unsigned long mId;
 
 	protected:
 		
@@ -30,9 +27,9 @@ namespace SDLFramework {
 		
 		virtual bool IgnoreCollisions();
 
-		//TODO: Uncomment once permission stuff is sorted.
-		//void AddCollider(Collider* collider, Vector2 localPos = Vec2_Zero);
-		//unsigned long mId;
+
+		void AddCollider(Collider* collider, Vector2 localPos = Vec2_Zero);
+		unsigned long mId;
 	};
 
 }

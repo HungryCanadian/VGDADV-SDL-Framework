@@ -1,8 +1,5 @@
 #include "GameManager.h"
 
-//TODO: Remove this include after testing.
-#include "BoxCollider.h"
-
 namespace SDLFramework {
 
 	GameManager* GameManager::sInstance = nullptr;
@@ -106,8 +103,8 @@ namespace SDLFramework {
 		mRedShip->Render();
 		mFontTex->Render();
 		
-		mPhysone->Render();
-		mPhystwo->Render();
+		//mPhysone->Render();
+		//mPhystwo->Render();
 		
 //		mGreenGalaga->Render();
 //		mPurpleGalaga->Render();
